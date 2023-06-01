@@ -20,10 +20,9 @@ To use the Team Profile Generator, follow these steps:
    npm install
    ```
 5. Once the dependencies are installed, you can run the application using the following command:
+   ```node --experimental-modules index.mjs
    ```
-node --experimental-modules index.mjs
-   ```
-
+   
 ## Usage
 
 1. Launch the application by running the command `node --experimental-modules index.mjs` in the terminal or command prompt.
