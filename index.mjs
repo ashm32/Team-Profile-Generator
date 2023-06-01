@@ -1,18 +1,3 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
-
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
-
-const render = require("./src/page-template.js");
-
-
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
-
 // Import required modules and classes
 import inquirer from "inquirer";
 import Manager from "./lib/Manager.js";
@@ -82,3 +67,115 @@ async function menu(teamMembers, outputPath) {
 
   console.log("Team.html file generated successfully!");
 }
+
+// Function to prompt for the manager's information
+function promptManager() {
+  console.log("Enter the team manager's information:");
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "Manager's name:",
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "Manager's employee ID:",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "Manager's email address:",
+    },
+    {
+      type: "input",
+      name: "officeNumber",
+      message: "Manager's office number:",
+    },
+  ]);
+}
+
+// Function to prompt for an engineer's information
+function promptEngineer() {
+  console.log("Enter an engineer's information:");
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "Engineer's name:",
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "Engineer's employee ID:",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "Engineer's email address:",
+    },
+    {
+      type: "input",
+      name: "github",
+      message: "Engineer's GitHub username:",
+    },
+  ]);
+}
+
+// Function to prompt for an intern's information
+function promptIntern() {
+  console.log("Enter an intern's information:");
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "Intern's name:",
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "Intern's employee ID:",
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "Intern's email address:",
+    },
+    {
+      type: "input",
+      name: "school",
+      message: "Intern's school:",
+    },
+  ]);
+}
+
+// Entry point of the application
+function init() {
+  // Initialise an empty array to store the team members
+  const teamMembers = [];
+
+  // Prompt for the manager's information
+  promptManager()
+    .then((managerData) => {
+      const manager = new Manager(
+        managerData.name,
+        managerData.id,
+        managerData.email,
+        managerData.officeNumber
+      );
+      teamMembers.push(manager); // Add the manager to the team members array
+
+      // Define the output file path
+      const OUTPUT_DIR = path.resolve(process.cwd(), "output");
+      const outputPath = path.join(OUTPUT_DIR, "team.html");
+
+      // Call the menu function to prompt for adding more team members or finish building the team
+      menu(teamMembers, outputPath);
+    })
+    .catch((err) => {
+      console.error("An error occurred:", err);
+    });
+}
+
+// Call the init function to start the application
+init();
